@@ -1,0 +1,15 @@
+current directory: /home/estudiante/Downloads/NOBORRAR_taller_arqui/infraestructura-turnos/vendor/bundle/ruby/3.0.0/gems/cgi-0.5.0/ext/cgi/escape
+/usr/bin/ruby3.0 -I /usr/lib/ruby/vendor_ruby -r ./siteconf20251004-2598850-gj2kyf.rb extconf.rb
+creating Makefile
+
+current directory: /home/estudiante/Downloads/NOBORRAR_taller_arqui/infraestructura-turnos/vendor/bundle/ruby/3.0.0/gems/cgi-0.5.0/ext/cgi/escape
+make DESTDIR\= clean
+
+current directory: /home/estudiante/Downloads/NOBORRAR_taller_arqui/infraestructura-turnos/vendor/bundle/ruby/3.0.0/gems/cgi-0.5.0/ext/cgi/escape
+make DESTDIR\=
+compiling escape.c
+linking shared-object cgi/escape.so
+
+current directory: /home/estudiante/Downloads/NOBORRAR_taller_arqui/infraestructura-turnos/vendor/bundle/ruby/3.0.0/gems/cgi-0.5.0/ext/cgi/escape
+make DESTDIR\= install
+/usr/bin/install -c -m 0755 escape.so ./.gem.20251004-2598850-qwda06/cgi

@@ -1,4 +1,34 @@
+version: "3.9"
+
 services:
+  servicio-cliente:
+    build: ./servicio-cliente
+    container_name: servicio-cliente
+    ports:
+      - "3000:3000"
+    environment:
+      - RAILS_ENV=development
+    depends_on:
+      - activemq
+      - redis
+    volumes:
+      - ./servicio-cliente:/app
+    command: bash -c "bundle exec rails s -p 3000 -b '0.0.0.0'"
+
+  servicio-asesor:
+    build: ./servicio-asesor
+    container_name: servicio-asesor
+    ports:
+      - "3001:3001"
+    environment:
+      - RAILS_ENV=development
+    depends_on:
+      - activemq
+      - redis
+    volumes:
+      - ./servicio-asesor:/app
+    command: bash -c "bundle exec rails s -p 3001 -b '0.0.0.0'"
+
   redis:
     image: redis:7
     container_name: redis
@@ -9,46 +39,6 @@ services:
     image: rmohr/activemq:latest
     container_name: activemq
     ports:
-      - "8161:8161"
       - "61616:61616"
       - "61613:61613"
-
-  servicio-cliente:
-    build:
-      context: ../servicio-cliente
-      dockerfile: Dockerfile
-    container_name: servicio-cliente
-    ports:
-      - "3000:3000"
-    depends_on:
-      - redis
-      - activemq
-    environment:
-      REDIS_URL: redis://redis:6379/0
-      AMQ_STOMP_URL: stomp://activemq:61613
-      AMQ_USER: admin
-      AMQ_PASSWORD: admin
-      SECRET_KEY_BASE: "dummysecretforcontainer"
-      PORT: 3000
-
-  servicio-asesor:
-    build:
-      context: ../servicio-asesor
-      dockerfile: Dockerfile
-    container_name: servicio-asesor
-    ports:
-      - "3001:3001"
-    depends_on:
-      - redis
-      - activemq
-    environment:
-      REDIS_URL: redis://redis:6379/0
-      AMQ_STOMP_URL: stomp://activemq:61613
-      AMQ_USER: admin
-      AMQ_PASSWORD: admin
-      SECRET_KEY_BASE: "dummysecretforcontainer"
-      PORT: 3001
-
-networks:
-  default:
-    name: turnos-net
+      - "8161:8161"
