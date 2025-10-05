@@ -1,0 +1,14 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:amq="http://activemq.apache.org/schema/core"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd">
+
+  <amq:broker brokerName="localhost" useJmx="true" persistent="false">
+    <amq:transportConnectors>
+      <amq:transportConnector name="openwire" uri="tcp://0.0.0.0:61616?maximumConnections=20000"/>
+      <amq:transportConnector name="stomp" uri="stomp://0.0.0.0:61613?maximumConnections=20000"/>
+    </amq:transportConnectors>
+  </amq:broker>
+</beans>

@@ -1,32 +1,54 @@
 version: "3.8"
+
 services:
   redis:
     image: redis:7
-    container_name: redis
+    container_name: infraestructura-turnos-redis
     ports:
       - "6379:6379"
 
   activemq:
     image: rmohr/activemq:latest
-    container_name: activemq
+    container_name: infraestructura-turnos-activemq
     ports:
-      - "61616:61616"
       - "8161:8161"
+      - "61613:61613"
+      - "61616:61616"
+    volumes:
+      - ./activemq.xml:/opt/activemq/conf/activemq.xml
+    environment:
+      - ACTIVEMQ_OPTS_MEMORY=-Xms512m -Xmx1024m
+    deploy:
+      resources:
+        limits:
+          memory: 2g
+    networks:
+      default:
+        aliases:
+          - activemq
+
+
 
   servicio-cliente:
-    build: ./servicio-cliente
+    build: ../servicio-cliente
     container_name: servicio-cliente
     ports:
       - "3000:3000"
+    environment:
+      - REDIS_HOST=infraestructura-turnos-redis
+      - ACTIVEMQ_URL=tcp://activemq:61613
     depends_on:
       - redis
       - activemq
 
   servicio-asesor:
-    build: ./servicio-asesor
+    build: ../servicio-asesor
     container_name: servicio-asesor
     ports:
       - "3001:3001"
+    environment:
+      - REDIS_HOST=infraestructura-turnos-redis
+      - ACTIVEMQ_URL=tcp://activemq:61613
     depends_on:
       - redis
       - activemq
